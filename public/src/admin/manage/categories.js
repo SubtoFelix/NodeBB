@@ -203,10 +203,10 @@ define('admin/manage/categories', [
 	function itemDragDidEnd(e) {
 		const isCategoryUpdate = parseInt(newCategoryId, 10) !== -1;
 
-		//Added Code
+		// Added Variables
 		const positionChanged = e.newIndex != null && parseInt(e.oldIndex, 10) !== parseInt(e.newIndex, 10);
-		const needUpdate = positionChanged || isCategoryUpdate
-		
+		const needUpdate = positionChanged || isCategoryUpdate;
+
 		// Update needed?
 		if (needUpdate) {
 			const cid = e.item.dataset.cid;
@@ -226,27 +226,27 @@ define('admin/manage/categories', [
 				const newParentCid = parseInt(e.to.getAttribute('data-cid'), 10);
 
 				if (oldParentCid !== newParentCid) {
-					toggleVisibility(newParentCid, false)
+					toggleVisibility(newParentCid, false);
 
 					const children = document.querySelectorAll(`.categories li[data-cid="${oldParentCid}"] ul[data-cid] li[data-cid]`);
 					if (!children.length) {
-						toggleVisibility(oldParentCid, true)
+						toggleVisibility(oldParentCid, true);
 					}
 
 					e.item.dataset.parentCid = newParentCid;
-				}
-
-				// Added Helper Function toggle visibility of category
-				function toggleVisibility(parentCid, visibility) {
-					const toggle = document.querySelector(`.categories li[data-cid="${parentCid}"] .toggle`);
-					if (toggle) {
-						toggle.classList.toggle('invisible', visibility);
-					}
 				}
 			}
 
 			newCategoryId = -1;
 			api.put('/categories/' + cid, modified[cid]).catch(alerts.error);
+		}
+	}
+
+	// Added Helper Function toggle visibility of category
+	function toggleVisibility(parentCid, visibility) {
+		const toggle = document.querySelector(`.categories li[data-cid="${parentCid}"] .toggle`);
+		if (toggle) {
+			toggle.classList.toggle('invisible', visibility);
 		}
 	}
 

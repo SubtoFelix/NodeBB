@@ -203,8 +203,12 @@ define('admin/manage/categories', [
 	function itemDragDidEnd(e) {
 		const isCategoryUpdate = parseInt(newCategoryId, 10) !== -1;
 
+		//Added Code
+		const positionChanged = e.newIndex != null && parseInt(e.oldIndex, 10) !== parseInt(e.newIndex, 10);
+		const needUpdate = positionChanged || isCategoryUpdate
+		
 		// Update needed?
-		if ((e.newIndex != null && parseInt(e.oldIndex, 10) !== parseInt(e.newIndex, 10)) || isCategoryUpdate) {
+		if (needUpdate) {
 			const cid = e.item.dataset.cid;
 			const modified = {};
 			// on page 1 baseIndex is 0, on page n baseIndex is (n - 1) * ajaxify.data.categoriesPerPage

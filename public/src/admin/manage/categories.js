@@ -221,8 +221,6 @@ define('admin/manage/categories', [
 			if (isCategoryUpdate) {
 				modified[cid].parentCid = newCategoryId;
 
-				console.log("Opally");
-				
 				// Show/hide expand buttons after drag completion
 				const oldParentCid = parseInt(e.from.getAttribute('data-cid'), 10);
 				const newParentCid = parseInt(e.to.getAttribute('data-cid'), 10);

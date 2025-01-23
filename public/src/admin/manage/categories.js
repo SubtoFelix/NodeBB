@@ -224,21 +224,24 @@ define('admin/manage/categories', [
 				// Show/hide expand buttons after drag completion
 				const oldParentCid = parseInt(e.from.getAttribute('data-cid'), 10);
 				const newParentCid = parseInt(e.to.getAttribute('data-cid'), 10);
+
 				if (oldParentCid !== newParentCid) {
-					const toggle = document.querySelector(`.categories li[data-cid="${newParentCid}"] .toggle`);
-					if (toggle) {
-						toggle.classList.toggle('invisible', false);
-					}
+					toggleVisibility(newParentCid, false)
 
 					const children = document.querySelectorAll(`.categories li[data-cid="${oldParentCid}"] ul[data-cid] li[data-cid]`);
 					if (!children.length) {
-						const toggle = document.querySelector(`.categories li[data-cid="${oldParentCid}"] .toggle`);
-						if (toggle) {
-							toggle.classList.toggle('invisible', true);
-						}
+						toggleVisibility(oldParentCid, true)
 					}
 
 					e.item.dataset.parentCid = newParentCid;
+				}
+
+				// Added Helper Function toggle visibility of category
+				function toggleVisibility(parentCid, visibility) {
+					const toggle = document.querySelector(`.categories li[data-cid="${parentCid}"] .toggle`);
+					if (toggle) {
+						toggle.classList.toggle('invisible', visibility);
+					}
 				}
 			}
 
